@@ -41,6 +41,10 @@ component "runtime-agent" do |pkg, settings, platform|
     pkg.install_file "#{settings[:tools_root]}/bin/libgdbm_compat-4.dll", "#{settings[:ruby_bindir]}/libgdbm_compat-4.dll"
     pkg.install_file "#{settings[:tools_root]}/bin/libiconv-2.dll", "#{settings[:ruby_bindir]}/libiconv-2.dll"
     pkg.install_file "#{settings[:tools_root]}/bin/libffi-6.dll", "#{settings[:ruby_bindir]}/libffi-6.dll"
+  elsif platform.name =~ /sles-15/
+    # These platforms use the default OS toolchain, not pl-build-tools
+    pkg.install_file "/usr/lib64/gcc/x86_64-suse-linux/7/libgcc_s.so", "/opt/puppetlabs/puppet/lib/libgcc_s.so"
+    pkg.install_file "/usr/lib64/libstdc++.so.6.0.24", "/opt/puppetlabs/puppet/lib/libstdc++.so.6.0.24"
   else # Linux and Solaris systems
     pkg.install do
       "bash runtime.sh #{libdir} puppet"
